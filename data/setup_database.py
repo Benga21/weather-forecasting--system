@@ -15,6 +15,6 @@ def setup_database():
     engine = create_engine(DATABASE_URL)
     Base.metadata.create_all(engine)  # this Creates all  the tables
 if __name__ == "__main__":
-    ensure_data_directory_exists()  # this Checks and creates directory if needed
+    ensure_data_directory_exists()  
     setup_database()
     print("Database and tables created successfully.")

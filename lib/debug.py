@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(leve
 #  this Creates a logger for this module
 logger = logging.getLogger(__name__)
 
-# Example usage of the logger
+#  usage of the logger
 if __name__ == "__main__":
     logger.debug("Debugging information: This is a debug message.")
     logger.info("Informational message: The application has started.")

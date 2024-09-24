@@ -2,7 +2,7 @@
 
 ## Overview
 
-For this phase 3 project, i create a CLI and ORM application in Python. 
+For this phase 3 project, i create a CLI and ORM application in Python. python 
 
 - Developing a CLI application that addresses a real-world problem while adhering to best practices.
 - Creating and modifying a database with SQLAlchemy ORM, including 6 related tables.
@@ -84,3 +84,7 @@ bash
 Copy code
 python lib/cli.py show-alert-warnings
 and same for other tables
+
+
+COMMANDS FOR NAVIGATING THE TABLES ARE STORED IN CLI.PY 
+TYPE PYTHON LIB/CLI.PY.

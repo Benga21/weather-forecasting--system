@@ -1,15 +1,18 @@
+import logging
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from lib.db.models import City, WeatherStation, Observation, ForecastData, AlertWarning, GeographicalInfo
+from lib.db.models import City, WeatherStation, Observation, Forecast, AlertWarning, GeographicalInfo
 from datetime import datetime
 
 DATABASE_URL = "sqlite:///data/weather_data.db"
 
 def add_data():
+    logging.basicConfig(level=logging.INFO)
     engine = create_engine(DATABASE_URL)
     Session = sessionmaker(bind=engine)
+
     session = Session()
-    
+
     # Cities
     cities = [
         City(name="New York 🌆", country="USA"),
@@ -19,10 +22,9 @@ def add_data():
         City(name="Cairo 🏺", country="Egypt"),
         City(name="Rio de Janeiro 🌴", country="Brazil"),
     ]
-    
     session.add_all(cities)
     session.commit()
-    print("Cities added successfully.")
+    logging.info("Cities added successfully.")
     
     # Weather Stations
     stations = [
@@ -33,10 +35,9 @@ def add_data():
         WeatherStation(name="Giza Pyramids Station", city=cities[4]),
         WeatherStation(name="Copacabana Station", city=cities[5]),
     ]
-    
     session.add_all(stations)
     session.commit()
-    print("Weather stations added successfully.")
+    logging.info("Weather stations added successfully.")
     
     # Observations
     observations = [
@@ -47,37 +48,35 @@ def add_data():
         Observation(temperature=20.0, humidity=80.0, timestamp=datetime(2024, 9, 19, 6, 0), weather_station=stations[4]),
         Observation(temperature=26.0, humidity=75.0, timestamp=datetime(2024, 9, 19, 6, 0), weather_station=stations[5]),
     ]
-    
     session.add_all(observations)
     session.commit()
-    print("Observations added successfully.")
+    logging.info("Observations added successfully.")
     
-    # Forecast Data
+    # Forecasts
     forecasts = [
-        ForecastData(weather_station_id=stations[0].id, forecast="Sunny ☀️", forecast_temp=75.0, forecast_humidity=50.0),
-        ForecastData(weather_station_id=stations[1].id, forecast="Rainy 🌧️", forecast_temp=60.0, forecast_humidity=80.0),
-        ForecastData(weather_station_id=stations[2].id, forecast="Cloudy ☁️", forecast_temp=65.0, forecast_humidity=70.0),
-        ForecastData(weather_station_id=stations[3].id, forecast="Windy 🌬️", forecast_temp=70.0, forecast_humidity=60.0),
-        ForecastData(weather_station_id=stations[4].id, forecast="Hot 🔥", forecast_temp=90.0, forecast_humidity=40.0),
-        ForecastData(weather_station_id=stations[5].id, forecast="Cold ❄️", forecast_temp=50.0, forecast_humidity=85.0),
+        Forecast(city_id=cities[0].id, temperature=75.0, description="Sunny ☀️", date=datetime(2024, 9, 20)),
+    Forecast(city_id=cities[1].id, temperature=60.0, description="Rainy 🌧️", date=datetime(2024, 9, 20)),
+    Forecast(city_id=cities[2].id, temperature=65.0, description="Cloudy ☁️", date=datetime(2024, 9, 20)),
+    Forecast(city_id=cities[3].id, temperature=70.0, description="Windy 🌬️", date=datetime(2024, 9, 20)),
+    Forecast(city_id=cities[4].id, temperature=90.0, description="Hot 🔥", date=datetime(2024, 9, 20)),
+    Forecast(city_id=cities[5].id, temperature=50.0, description="Cold ❄️", date=datetime(2024, 9, 20)),
     ]
-    
     session.add_all(forecasts)
     session.commit()
-    print("Forecast data added successfully.")
+    logging.info("Forecast data added successfully.")
     
     # Alert Warnings
     alerts = [
-        AlertWarning(alert_type="Heatwave 🔥", message="Extreme heat expected in New York.", city_id=cities[0].id),
-    AlertWarning(alert_type="Typhoon 🌪️", message="Typhoon approaching Tokyo.", city_id=cities[1].id),
-    AlertWarning(alert_type="Flood Warning 🌊", message="Heavy rain expected in Paris.", city_id=cities[2].id),
-    AlertWarning(alert_type="Wildfire 🔥", message="High fire risk in Sydney.", city_id=cities[3].id),
-    AlertWarning(alert_type="Sandstorm 🌫️", message="Sandstorm warning in Cairo.", city_id=cities[4].id),
-    AlertWarning(alert_type="Tsunami 🌊", message="Tsunami alert for Rio de Janeiro.", city_id=cities[5].id),
+        AlertWarning(message="Extreme heat expected in New York.", alert_type="Heatwave 🔥", city_id=cities[0].id),
+    AlertWarning(message="Typhoon approaching Tokyo.", alert_type="Typhoon 🌪️", city_id=cities[1].id),
+    AlertWarning(message="Heavy rain expected in Paris.", alert_type="Flood Warning 🌊", city_id=cities[2].id),
+    AlertWarning(message="High fire risk in Sydney.", alert_type="Wildfire 🔥", city_id=cities[3].id),
+    AlertWarning(message="Sandstorm warning in Cairo.", alert_type="Sandstorm 🌫️", city_id=cities[4].id),
+    AlertWarning(message="Tsunami alert for Rio de Janeiro.", alert_type="Tsunami 🌊", city_id=cities[5].id),
 ]
     session.add_all(alerts)
     session.commit()
-    print("Alert warnings added successfully.")
+    logging.info("Alert warnings added successfully.")
     
     # Geographical Info
     geo_info = [
@@ -88,11 +87,12 @@ def add_data():
         GeographicalInfo(city_id=cities[4].id, latitude=30.0444, longitude=31.2357),
         GeographicalInfo(city_id=cities[5].id, latitude=-22.9068, longitude=-43.1729),
     ]
-
     session.add_all(geo_info)
     session.commit()
-    print("Geographical information added successfully.")
+    logging.info("Geographical information added successfully.")
+
     session.close()
+    logging.info("Data population completed.")
+
 if __name__ == "__main__":
     add_data()
-    print("Data population completed.")

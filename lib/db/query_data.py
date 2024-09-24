@@ -56,8 +56,8 @@ def add_data():
 
         print("Adding sample geographical info...")
         geo_info = [
-            GeographicalInfo(station_id=1, latitude=40.785091, longitude=-73.968285),  # Central Park
-            GeographicalInfo(station_id=2, latitude=34.052235, longitude=-118.243683),  # Los Angeles
+            GeographicalInfo(station_id=1, latitude=40.785091, longitude=-73.968285),  
+            GeographicalInfo(station_id=2, latitude=34.052235, longitude=-118.243683),  
             
         ]
         db.add_all(geo_info)
